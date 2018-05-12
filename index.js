@@ -21,10 +21,9 @@ io.on('connection', function(socket){
     });
 	
     socket.on('walking', function(msg){
-		if (socket.actualP != JSON.parse('['+msg+']')){
+		if (msg != msg){
 			console.log('walking to ' + msg);
 			socket.actualP = msg;
-			console.log('walking to ' + socket.actualP);
         	io.emit('walking', msg);
 		}
     });
