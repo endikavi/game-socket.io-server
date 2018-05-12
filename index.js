@@ -21,6 +21,7 @@ io.on('connection', function(socket){
     });
 	
     socket.on('walking', function(msg){
+		console.log(socket.actualP);
 		if (socket.actualP != msg){
 			console.log('walking to ' + msg);
 			socket.actualP = msg;
