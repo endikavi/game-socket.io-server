@@ -21,11 +21,11 @@ io.on('connection', function(socket){
     });
 	
     socket.on('walking', function(msg){
-		
-        console.log('walking to ' + msg);
-		socket.actualP = msg;
-        io.emit('walking', msg);
-		
+		if (socket.actualP != msg){
+			console.log('walking to ' + msg);
+			socket.actualP = msg;
+        	io.emit('walking', msg);
+		}
     });
 	
     socket.on('disconnect', function(){
