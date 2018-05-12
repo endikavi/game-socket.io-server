@@ -1,0 +1,22 @@
+{
+  "name": "serverio",
+  "version": "1.0.0",
+  "description": "socket.io server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/endikavi/game-socket.io-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/endikavi/game-socket.io-server/issues"
+  },
+  "homepage": "https://github.com/endikavi/game-socket.io-server#readme",
+  "dependencies": {
+    "socket.io": "^2.1.0"
+  }
+}
