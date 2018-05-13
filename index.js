@@ -12,31 +12,42 @@ io.on('connection', function(socket){
 	
     console.log('a user connected');
 	
-    socket.on('chat', function(msg){
+    socket.on('roomChat', function(msg){
         console.log('message: ' + msg);
-        io.emit('chat', msg);
+        io.to(players[socket.playerId].room).emit('roomChat', msg);
+    });
+	
+	socket.on('globalChat', function(msg){
+        console.log('message: ' + msg);
+        io.emit('globalChat', msg);
     });
 	
 	socket.on('id', function(msg){
         console.log('Jugador identificado como: ' + msg);
 		socket.playerId = msg;
-		players[msg] = socket.id;
+		players[msg] = {id : socket.id};
     });
 	
 	socket.on('newRoom', function(msg){
         console.log('Creada sala: ' + msg);
 		rooms[msg] = 1;
-		io.emit('newRoom', msg);
+		socket.join("/"+msg)
+		players[socket.playerId].room = msg;
+		io.emit('newRoom', rooms);
     });
 	
 	socket.on('enterRoom', function(msg){
 		if(rooms[msg] < 4 ){
 			console.log(socket.playerId + ' entrando en sala: ' + msg);
 			rooms[msg]+= 1;
-			io.emit('newRoom', msg);
+			socket.join("/"+msg);
+			players[socket.playerId].room = msg;
+			io.to("/"+msg).emit('enterRoom', socket.playerId);
+			io.emit('newRoom', rooms);
 		}else{
 			console.log('Sala llena');
-			io.emit('RoomFull', msg);
+			io.to(socket.id).emit('enterRoom', false);
+			io.emit('newRoom', rooms);
 		}	
     });
 	
@@ -44,7 +55,10 @@ io.on('connection', function(socket){
 		
         console.log(socket.playerId + 'saliendo de la sala: ' + msg);
 		rooms[msg] -= 1;
-		io.emit('exitRoom', msg);
+		io.to(players[socket.playerId].room).emit('exitRoom', msg);
+		socket.leave("/"+msg);
+		socket.playerId].room = undefined;
+		io.emit('newRoom', rooms);
 		
     });
 	
