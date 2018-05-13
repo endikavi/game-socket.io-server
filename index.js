@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 		rooms[msg] -= 1;
 		io.to(players[socket.playerId].room).emit('exitRoom', msg);
 		socket.leave("/"+msg);
-		socket.playerId].room = undefined;
+		players[socket.playerId].room = undefined;
 		io.emit('newRoom', rooms);
 		
     });
