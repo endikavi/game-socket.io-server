@@ -5,6 +5,9 @@ const io = require('socket.io')(server);
 
 var players = {};
 var rooms = {};
+var globalChats = [];
+var roomsChats = {};
+
 io.on('connection', function(socket){
 	
 	socket.actualP;
@@ -12,18 +15,22 @@ io.on('connection', function(socket){
 	
     console.log('a user connected');
 	
+	io.to(socket.id).emit('allGlobalChat', globalChats);
+	io.to(socket.id).emit('RoomsList', rooms);
+	io.to(socket.id).emit('playersList', players);
+	
     socket.on('roomChat', function(msg){
         console.log('message: ' + msg);
         io.to(players[socket.playerId].room).emit('roomChat', msg);
     });
 	
 	socket.on('globalChat', function(msg){
-        console.log('message: ' + msg);
+		globalChats.push(msg);
         io.emit('globalChat', msg);
     });
 	
 	socket.on('id', function(msg){
-        console.log('Jugador identificado como: ' + msg);
+        console.log( socket.id +' identificado como: ' + msg);
 		socket.playerId = msg;
 		players[msg] = {id : socket.id};
     });
