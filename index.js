@@ -14,10 +14,9 @@ io.on('connection', function(socket){
     socket.playerId;
 	
     console.log('a user connected');
-	console.log(players);
+	
 	io.to(socket.id).emit('allGlobalChats', globalChats);
 	io.to(socket.id).emit('roomsList', rooms);
-	io.to(socket.id).emit('playersList', players);
 	
     socket.on('roomChat', function(msg){
         console.log('message: ' + msg);
@@ -33,7 +32,9 @@ io.on('connection', function(socket){
 	socket.on('id', function(msg){
         console.log( socket.id +' identificado como: ' + msg);
 		socket.playerId = msg;
-		players[msg] = {id : socket.id};
+		players[msg] = {id : socket.id, online : true};
+		console.log(players);
+		io.to(socket.id).emit('playersList', players);
     });
 	
 	socket.on('newRoom', function(msg){
