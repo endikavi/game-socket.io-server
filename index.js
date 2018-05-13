@@ -14,7 +14,7 @@ io.on('connection', function(socket){
     socket.playerId;
 	
     console.log('a user connected');
-	
+	console.log(players);
 	io.to(socket.id).emit('allGlobalChat', globalChats);
 	io.to(socket.id).emit('RoomsList', rooms);
 	io.to(socket.id).emit('playersList', players);
@@ -26,6 +26,7 @@ io.on('connection', function(socket){
 	
 	socket.on('globalChat', function(msg){
 		globalChats.push(msg);
+		console.log(msg);
         io.emit('globalChat', msg);
     });
 	
