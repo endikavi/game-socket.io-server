@@ -38,10 +38,11 @@ io.on('connection', function(socket){
     });
 	
 	socket.on('newRoom', function(msg){
-        console.log('Creada sala: ' + msg);
-		rooms[msg] = 1;
-		socket.join("/"+msg)
-		players[socket.playerId].room = msg;
+        console.log('Creada sala: ' + msg[0] + 'por el usuario: ' + msg[1]);
+		rooms[msg[0]].people = [{1 : msg[1]}];
+        rooms[msg[0]].chief = msg[1];
+		socket.join("/"+msg[0])
+		players[socket.playerId].room = msg[0];
 		io.emit('newRoom', rooms);
     });
 	
