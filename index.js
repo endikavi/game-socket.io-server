@@ -24,7 +24,7 @@ io.on('connection', function(socket){
         console.log('room msg: ' + msg);
         
         if(players[socket.playerId]!=undefined){
-            io.to(players[socket.playerId].room).emit('roomChat', msg);
+            io.to("/"+players[socket.playerId].room).emit('roomChat', msg);
         }
         
     });
@@ -54,7 +54,7 @@ io.on('connection', function(socket){
             rooms[msg[0]].people = [{1 : msg[1]}];
             rooms[msg[0]].chief = msg[1];
             socket.join("/"+msg[0])
-            players[socket.playerId].room = "/"+msg[0];
+            players[socket.playerId].room = msg[0];
             io.emit('newRoom', rooms);
         }
     });
