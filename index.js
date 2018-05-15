@@ -20,7 +20,8 @@ io.on('connection', function(socket){
 	
     socket.on('roomChat', function(msg){
         
-        console.log('message: ' + msg);
+        roomsChats.push(msg);
+        console.log('room msg: ' + msg);
         io.to(players[socket.playerId].room).emit('roomChat', msg);
         
     });
