@@ -19,22 +19,28 @@ io.on('connection', function(socket){
 	io.to(socket.id).emit('roomsList', rooms);
 	
     socket.on('roomChat', function(msg){
+        
         console.log('message: ' + msg);
         io.to(players[socket.playerId].room).emit('roomChat', msg);
+        
     });
 	
 	socket.on('globalChat', function(msg){
+        
 		globalChats.push(msg);
 		console.log(msg);
         io.emit('globalChat', msg);
+        
     });
 	
 	socket.on('id', function(msg){
+        
         console.log( socket.id +' identificado como: ' + msg);
 		socket.playerId = msg;
 		players[msg] = {id : socket.id, online : true};
 		console.log(players);
 		io.to(socket.id).emit('playersList', players);
+        
     });
 	
 	socket.on('newRoom', function(msg){
@@ -62,13 +68,10 @@ io.on('connection', function(socket){
 		}	
     });
 	
-	socket.on('exitRoom', function(msg){
-		
-        console.log(socket.playerId + 'saliendo de la sala: ' + msg);
-		rooms[msg] -= 1;
-		io.to(players[socket.playerId].room).emit('exitRoom', msg);
-		socket.leave("/"+msg);
-		players[socket.playerId].room = undefined;
+	socket.on('exitRoom', function(){
+        
+		socket.leave("/"+socket.players[playerId].room);
+        exitRoom(socket);
 		io.emit('newRoom', rooms);
 		
     });
@@ -84,11 +87,35 @@ io.on('connection', function(socket){
 	
     socket.on('disconnect', function(){
         
-        console.log('user disconnected');
+        if(players[socket.playerId].room != undefined){
+            
+            socket.leave("/"+socket.players[playerId].room);
+            exitRoom(socket);
+            io.emit('newRoom', rooms);
+            
+        }
+        
+        players[socket.playerId].online = false;
+        console.log(socket.playerId + ' desconectado');
+        io.emit('playersList', players);
         
     });
     
 });
+
+function exitRoom(socket){
+    
+        console.log(socket.playerId + 'saliendo de la sala: ' + players[socket.playerId].room);
+    
+		rooms[players[socket.playerId].room] -= 1;
+    
+		io.to(players[socket.playerId].room).emit('exitRoom', msg);
+    
+		socket.leave("/"+players[socket.playerId].room);
+    
+		players[socket.playerId].room = undefined;
+    
+}
 
 server.listen(process.env.PORT || 3000);
 
