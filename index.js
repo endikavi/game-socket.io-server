@@ -70,7 +70,7 @@ io.on('connection', function(socket){
 	
 	socket.on('exitRoom', function(){
         
-		socket.leave("/"+socket.players[playerId].room);
+		socket.leave("/"+players[socket.playerId].room);
         exitRoom(socket);
 		io.emit('newRoom', rooms);
 		
@@ -89,7 +89,7 @@ io.on('connection', function(socket){
         
         if(players[socket.playerId].room != undefined){
             
-            socket.leave("/"+socket.players[playerId].room);
+            socket.leave("/"+players[socket.playerId].room);
             exitRoom(socket);
             io.emit('newRoom', rooms);
             
