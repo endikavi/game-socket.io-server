@@ -22,7 +22,10 @@ io.on('connection', function(socket){
         
         roomsChats.push(msg);
         console.log('room msg: ' + msg);
-        io.to(players[socket.playerId].room||"").emit('roomChat', msg);
+        
+        if(players[socket.playerId]!=undefined){
+            io.to(players[socket.playerId].room).emit('roomChat', msg);
+        }
         
     });
 	
