@@ -65,6 +65,7 @@ io.on('connection', function(socket){
 		}else{
 			console.log('Sala llena');
 			io.to(socket.id).emit('enterRoom', false);
+            io.to(players[socket.playerId].room).emit('allRoomChats', msg);
 			io.emit('newRoom', rooms);
 		}	
     });
@@ -110,7 +111,7 @@ function exitRoom(socket){
     
 		rooms[players[socket.playerId].room] -= 1;
     
-		io.to(players[socket.playerId].room).emit('exitRoom', msg);
+		io.to(players[socket.playerId].room).emit('exitRoom', true);
     
 		socket.leave("/"+players[socket.playerId].room);
     
