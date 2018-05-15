@@ -6,7 +6,7 @@ const io = require('socket.io')(server);
 var players = {};
 var rooms = {};
 var globalChats = [];
-var roomsChats = {};
+var roomsChats = [];
 
 io.on('connection', function(socket){
 	
