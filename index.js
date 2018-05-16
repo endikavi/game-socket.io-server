@@ -47,6 +47,7 @@ io.on('connection', function(socket){
     });
 	
 	socket.on('newRoom', function(msg){
+        
         if(players[socket.playerId]!=undefined){
             console.log('Creada sala: ' + msg[0] + 'por el usuario: ' + msg[1]);
             rooms[msg[0]] = {};
@@ -54,8 +55,10 @@ io.on('connection', function(socket){
             rooms[msg[0]].chief = msg[1];
             socket.join("/"+msg[0])
             players[socket.playerId].room = msg[0];
-            io.emit('newRoom', rooms);
+            io.emit('newRoom', [ msg[0] , rooms[msg[0]] ] );
+            io.to(socket.id).emit( 'enterRoom' , rooms[msg[0]] );
         }
+        
     });
 	
 	socket.on('enterRoom', function(msg){
