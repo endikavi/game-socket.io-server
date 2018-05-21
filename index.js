@@ -93,8 +93,15 @@ io.on('connection', function(socket){
 		if(players[socket.playerId]!=undefined){
             if (socket.actualP != JSON.stringify(msg)){
                 socket.actualP = JSON.stringify(msg);
-                io.emit('walking', socket.actualP);
+                io.to("/"+players[socket.playerId].room).emit('walking', socket.actualP);
             }
+        }
+    });
+    
+    socket.on('startGame', function(msg){
+		if(players[socket.playerId]!=undefined){
+            io.to("/"+players[socket.playerId].room).emit('startGame', msg);
+            
         }
     });
 	
