@@ -93,7 +93,7 @@ io.on('connection', function(socket){
 		if(players[socket.playerId]!=undefined){
             if (socket.actualP != JSON.stringify(msg)){
                 socket.actualP = JSON.stringify(msg);
-                io.to("/"+players[socket.playerId].room).emit('walking', socket.actualP);
+                io.to("/"+players[socket.playerId].room).emit('walking', [socket.playerId,socket.actualP]);
             }
         }
     });
