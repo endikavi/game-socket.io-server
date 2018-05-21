@@ -70,8 +70,8 @@ io.on('connection', function(socket){
                 rooms[msg[0]].people = [{id : msg[1]}];
                 socket.join("/"+msg[0]);
                 players[socket.playerId].room = msg[0];
-                io.to("/"+msg[0]).emit('enterRoom', msg[1]);
-                io.emit('newRoom', rooms);
+                io.to("/"+msg[0]).emit('enterRoom', msg);
+                //io.emit('newRoom', rooms);
             }else{
                 console.log('Sala llena');
                 io.to(socket.id).emit('enterRoom', false);
