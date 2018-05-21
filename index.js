@@ -67,11 +67,11 @@ io.on('connection', function(socket){
             
             if(rooms[msg[0]].people.length < 4 ){
                 console.log(msg[1] + ' entrando en sala: ' + msg[0]);
-                rooms[msg[0]].people = [{id : msg[1]}];
+                rooms[msg[0]].people.push({id : msg[1]});
                 socket.join("/"+msg[0]);
                 players[socket.playerId].room = msg[0];
                 io.to("/"+msg[0]).emit('enterRoom', rooms[msg[0]]);
-                //io.emit('newRoom', rooms);
+                io.emit('changeRoom', rooms[msg[0]]);
             }else{
                 console.log('Sala llena');
                 io.to(socket.id).emit('enterRoom', false);
