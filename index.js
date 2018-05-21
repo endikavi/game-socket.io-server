@@ -42,7 +42,7 @@ io.on('connection', function(socket){
 		socket.playerId = msg;
 		players[msg] = {id : socket.id, online : true};
 		console.log(players);
-		io.to(socket.id).emit('playersList', players);
+		io.emit('playersList', players);
         
     });
 	
