@@ -98,6 +98,14 @@ io.on('connection', function(socket){
         }
     });
     
+    socket.on('pushing', function(msg){
+		if(players[socket.playerId]!=undefined){
+            
+                io.to("/"+players[socket.playerId].room).emit('pushing', [socket.playerId,msg[0],msg[1],msg[2]]);
+            
+        }
+    });
+    
     socket.on('startGame', function(msg){
 		if(players[socket.playerId]!=undefined){
             io.to("/"+players[socket.playerId].room).emit('startGame', msg);
