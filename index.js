@@ -71,7 +71,7 @@ io.on('connection', function(socket){
                 socket.join("/"+msg[0]);
                 players[socket.playerId].room = msg[0];
                 io.to("/"+msg[0]).emit('enterRoom', rooms[msg[0]]);
-                //io.emit('changeRoom', rooms[msg[0]]);
+				
             }else{
                 console.log('Sala llena');
                 io.to(socket.id).emit('enterRoom', false);
