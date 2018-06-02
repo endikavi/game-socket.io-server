@@ -46,6 +46,21 @@ io.on('connection', function(socket){
         
     });
 	
+	socket.on('set', function(msg){
+        
+        console.log( socket.id +' usara el personaje: ' + msg);
+		
+		players[socket.playerId].set = msg
+		io.emit('playersList', players);
+        
+    });
+	
+	socket.on('changeMap', function(msg){
+        
+		 io.to(players[socket.playerId].room).emit('allRoomChats', [socket.playerId,msg]);
+        
+    });
+	
 	socket.on('newRoom', function(msg){
         
         if(players[socket.playerId]!=undefined){
