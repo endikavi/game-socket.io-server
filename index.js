@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 	
 	socket.on('changeMap', function(msg){
         
-		 io.to(players[socket.playerId].room).emit('allRoomChats', [socket.playerId,msg]);
+		 io.to(players[socket.playerId].room).emit('changeMap', [socket.playerId,msg]);
         
     });
 	
