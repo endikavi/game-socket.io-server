@@ -56,7 +56,7 @@ io.on('connection', function(socket){
     });
 	
 	socket.on('changeMap', function(msg){
-        
+        	console.log('usuario cambio de mapa')
 		 io.to(players[socket.playerId].room).emit('changeMap', [socket.playerId,msg]);
         
     });
