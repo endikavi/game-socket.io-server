@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 	
 	socket.on('changeMap', function(msg){
         	console.log('usuario cambio de mapa')
-		 io.to(players[socket.playerId].room).emit('changeMap', [socket.playerId,msg]);
+		 io.to("/"+players[socket.playerId].room).emit('changeMap', [socket.playerId,msg]);
         
     });
 	
@@ -90,7 +90,7 @@ io.on('connection', function(socket){
             }else{
                 console.log('Sala llena');
                 io.to(socket.id).emit('enterRoom', false);
-                io.to(players[socket.playerId].room).emit('allRoomChats', msg);
+                io.to(players["/"+socket.playerId].room).emit('allRoomChats', msg);
                 io.emit('newRoom', rooms);
             }	
         }
